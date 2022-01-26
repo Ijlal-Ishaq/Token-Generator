@@ -1,58 +1,52 @@
 import { FC } from "react";
 import { useDispatch, connect, useSelector } from "react-redux";
-import { addBook } from "../../redux/actions/booksActions";
 import { styled } from "@mui/material/styles";
 import { TextField, Box } from "@mui/material";
-import Tile from "../../components/Tile";
-import { useBookAdder } from "../../hooks/addBook";
 
-type Book = {
-  name: string;
-  description: string;
-  img: string;
-};
-
-const MainDiv = styled(Box)(({ theme }) => ({
-  width: "100%",
+const MainDiv = styled("div")(({ theme }) => ({
+  marginLeft: "auto",
+  marginRight: "auto",
 }));
 
-const AddButton = styled("div")(({ theme }) => ({
-  height: "70px",
-  width: "70px",
-  borderRadius: "70px",
-  position: "fixed",
-  bottom: "20px",
-  right: "20px",
-  border: "none",
-  backgroundColor: theme.palette.primary.main,
-  color: theme.palette.background.default,
-  fontSize: "48px",
-  fontWeight: "100",
+const Logo = styled("div")(({ theme }) => ({
+  marginLeft: "auto",
+  marginRight: "auto",
+  fontSize: "30px",
+  marginTop: "90px",
+  marginBottom: "50px",
+}));
+
+const CustomButtons = styled("div")(({ theme }) => ({
+  background: "rgba(255, 255, 255, 0.1)",
+  boxShadow: "0 0 8px 3px rgba(255, 255, 255, 0.09)",
+  backdropFilter: "blur(4px)",
+  borderRadius: "5px",
+  border: "1px solid rgba(255, 255, 255, 0.1)",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  cursor: "pointer",
+  width: "300px",
+  height: "50px",
+  color: "#fff",
+  marginTop: "30px",
+  marginLeft: "auto",
+  marginRight: "auto",
+  userSelect: "none",
+
+  "&:hover": {
+    width: "310px",
+    height: "60px",
+  },
 }));
 
 const Index: FC = () => {
-  const dispatch = useDispatch();
-  const addBookFun = useBookAdder();
-  const books: Book[] = useSelector((state: any) => {
-    return state.booksReducer.books;
-  });
-
   return (
     <MainDiv>
-      <AddButton onClick={addBookFun}>+</AddButton>
-      <div style={{ display: "flex" }}>
-        {books.map((e, i) => {
-          console.log("aaa", e);
-          return (
-            <Tile
-              key={i}
-              name={e.name}
-              description={e.description}
-              imgUrl={e.img}
-            ></Tile>
-          );
-        })}
-      </div>
+      <Logo>Logo</Logo>
+      <CustomButtons>PLAY</CustomButtons>
+      <CustomButtons>Collection</CustomButtons>
+      <CustomButtons>HOW IT WORKS?</CustomButtons>
     </MainDiv>
   );
 };
