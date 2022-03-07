@@ -38,11 +38,11 @@ const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
       ? {
           // palette values for light mode
           primary: {
-            main: "#000",
+            main: "#1f1d2c",
           },
           background: {
-            default: "#fff",
-            paper: "#fff",
+            default: "#1e94e7",
+            paper: "#29c869",
           },
           text: {
             primary: "#fff",
@@ -113,7 +113,7 @@ const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
 });
 
 const Theme: FC = ({ children }) => {
-  const [mode, setMode] = useState("light");
+  const [mode] = useState("light");
 
   const theme = useMemo(
     () => createTheme(getDesignTokens(mode as PaletteMode)),

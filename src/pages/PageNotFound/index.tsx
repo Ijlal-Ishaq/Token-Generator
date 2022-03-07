@@ -1,13 +1,13 @@
-import React from "react";
+import { FC } from "react";
 
-const Index = () => {
+const index: FC = () => {
   return (
     <div>
-      404!
+      404
       <br />
       Page Not Found.
     </div>
   );
 };
 
-export default Index;
+export default index;

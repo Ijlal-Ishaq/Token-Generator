@@ -1,54 +1,270 @@
-import { FC } from "react";
-import { useDispatch, connect, useSelector } from "react-redux";
+/* eslint-disable jsx-a11y/anchor-has-content */
+/* eslint-disable eqeqeq */
+import { FC, useState } from "react";
 import { styled } from "@mui/material/styles";
-import { TextField, Box } from "@mui/material";
+import { useWeb3React } from "@web3-react/core";
+import { deploy } from "../../utils/deploy";
+import { conciseAddress } from "../../utils/formattingFunctions";
 
-const MainDiv = styled("div")(({ theme }) => ({
+const Container = styled("div")(({ theme }) => ({
+  marginTop: "50vh",
+  marginBottom: "15px",
   marginLeft: "auto",
   marginRight: "auto",
-}));
-
-const Logo = styled("div")(({ theme }) => ({
-  marginLeft: "auto",
-  marginRight: "auto",
-  fontSize: "30px",
-  marginTop: "90px",
-  marginBottom: "50px",
-}));
-
-const CustomButtons = styled("div")(({ theme }) => ({
-  background: "rgba(255, 255, 255, 0.1)",
-  boxShadow: "0 0 8px 3px rgba(255, 255, 255, 0.09)",
-  backdropFilter: "blur(4px)",
+  background: "rgba(255, 255, 255, 0.03)",
+  boxShadow: "0 0 1rem 0 rgba(0, 0, 0, .2)",
+  backdropFilter: "blur(30px)",
   borderRadius: "5px",
-  border: "1px solid rgba(255, 255, 255, 0.1)",
+  width: "700px",
+  height: "500px",
+  transform: "translateY(-250px)",
   display: "flex",
+  flexDirection: "column",
+  padding: "30px 130px",
+  position: "fixed",
   justifyContent: "center",
-  alignItems: "center",
-  cursor: "pointer",
-  width: "300px",
-  height: "50px",
-  color: "#fff",
-  marginTop: "30px",
-  marginLeft: "auto",
-  marginRight: "auto",
-  userSelect: "none",
+  left: 0,
+  right: 0,
 
-  "&:hover": {
-    width: "310px",
-    height: "60px",
+  [theme.breakpoints.down("sm")]: {
+    width: "90%",
+    marginTop: "45vh",
+    padding: "30px",
   },
 }));
 
-const Index: FC = () => {
+const Input = styled("input")(({ theme }) => ({
+  background: "rgba(255, 255, 255, 0.03)",
+  boxShadow: "0 0 1rem 0 rgba(0, 0, 0, .2)",
+  backdropFilter: "blur(30px)",
+  borderRadius: "5px",
+  border: "none",
+  padding: "13px",
+  fontSize: "18px",
+  fontFamily: "Josefin Sans",
+  marginBottom: "10px",
+}));
+
+const Home: FC = () => {
+  const [tokenName, setTokenName] = useState("");
+  const [tokenSymbol, setTokenSymbol] = useState("");
+  const [supply, setSupply] = useState<any>("");
+  const [address, setAddress] = useState("");
+  const [deployingState, setDeployingState] = useState(false);
+  const [deployedState, setDeployedState] = useState(false);
+  const [verifyState, setverifyState] = useState(false);
+
+  const webContext = useWeb3React();
+
+  const generateToken = async () => {
+    if (
+      tokenName !== "" &&
+      tokenSymbol !== "" &&
+      supply !== "" &&
+      !isNaN(supply)
+    ) {
+      setDeployingState(true);
+      let address = await deploy(
+        tokenName,
+        tokenSymbol,
+        supply,
+        webContext,
+        setverifyState
+      );
+      setAddress(address);
+      setDeployedState(true);
+      setDeployingState(false);
+      setTokenName("");
+      setTokenSymbol("");
+      setSupply("");
+    }
+  };
+
   return (
-    <MainDiv>
-      <Logo>Logo</Logo>
-      <CustomButtons>PLAY</CustomButtons>
-      <CustomButtons>Collection</CustomButtons>
-      <CustomButtons>HOW IT WORKS?</CustomButtons>
-    </MainDiv>
+    <>
+      {deployingState ? (
+        <Container>
+          <div
+            style={{
+              fontSize: "25px",
+              fontWeight: "500",
+              color: "#fff",
+              fontFamily: "Josefin Sans",
+              marginBottom: "15px",
+              userSelect: "none",
+            }}
+          >
+            Deploying Your Token.....
+          </div>
+        </Container>
+      ) : verifyState ? (
+        <Container>
+          <div
+            style={{
+              fontSize: "25px",
+              fontWeight: "500",
+              color: "#fff",
+              fontFamily: "Josefin Sans",
+              marginBottom: "15px",
+              userSelect: "none",
+            }}
+          >
+            Verifying Your Token.....
+          </div>
+        </Container>
+      ) : deployedState ? (
+        <Container>
+          <div
+            style={{
+              fontSize: "25px",
+              fontWeight: "500",
+              color: "#fff",
+              fontFamily: "Josefin Sans",
+              marginBottom: "15px",
+              userSelect: "none",
+            }}
+          >
+            Your Token Address <br />
+            <a
+              target={"_blank"}
+              rel={"noreferrer"}
+              href={`https://rinkeby.etherscan.io/address/${address}`}
+              style={{
+                fontSize: "20px",
+                userSelect: "all",
+                cursor: "pointer",
+                textDecoration: "none",
+                color: "#fff",
+              }}
+            >
+              {conciseAddress(address, 9)}&#128279;
+            </a>
+            <br />
+            <br />
+            <button
+              onClick={() => {
+                setDeployedState(false);
+              }}
+              style={{
+                borderRadius: "5px",
+                border: "none",
+                padding: "13px",
+                fontFamily: "Josefin Sans",
+                fontSize: "18px",
+                fontWeight: "700",
+                color: "#fff",
+                boxShadow: "0 0 1rem 0 rgba(0, 0, 0, .2)",
+                background:
+                  "linear-gradient(150deg,rgba(41, 200, 105, 1) 0%, rgba(41, 200, 105, 1) 30%, rgba(30, 148, 231, 1) 100%)",
+                cursor: "pointer",
+              }}
+            >
+              NEXT
+            </button>
+          </div>
+        </Container>
+      ) : (
+        <Container>
+          <div
+            style={{
+              fontSize: "30px",
+              fontWeight: "700",
+              color: "#fff",
+              fontFamily: "Josefin Sans",
+              marginBottom: "15px",
+              userSelect: "none",
+            }}
+          >
+            Generate Token
+          </div>
+          <div
+            style={{
+              fontSize: "18px",
+              fontWeight: "700",
+              textAlign: "left",
+              color: "#fff",
+              fontFamily: "Josefin Sans",
+              userSelect: "none",
+            }}
+          >
+            Token Name :
+          </div>
+          <Input
+            type={"text"}
+            name="tokenName"
+            placeholder="Enter token name"
+            value={tokenName}
+            onChange={(e) => {
+              setTokenName(e.target.value);
+            }}
+          ></Input>
+          <div
+            style={{
+              fontSize: "18px",
+              fontWeight: "700",
+              textAlign: "left",
+              color: "#fff",
+              fontFamily: "Josefin Sans",
+              userSelect: "none",
+            }}
+          >
+            Token Symbol :
+          </div>
+          <Input
+            type={"text"}
+            name="tokenSymbol"
+            placeholder="Enter token symbol"
+            value={tokenSymbol}
+            onChange={(e) => {
+              setTokenSymbol(e.target.value);
+            }}
+          ></Input>
+          <div
+            style={{
+              fontSize: "18px",
+              fontWeight: "700",
+              textAlign: "left",
+              color: "#fff",
+              fontFamily: "Josefin Sans",
+              userSelect: "none",
+            }}
+          >
+            Initial Supply :
+          </div>
+          <Input
+            type={"text"}
+            name="initialSupply"
+            placeholder="Enter initial supply"
+            value={supply}
+            onChange={(e) => {
+              setSupply(parseInt(e.target.value));
+            }}
+          ></Input>
+          <br />
+          <button
+            onClick={() => {
+              generateToken();
+            }}
+            style={{
+              borderRadius: "5px",
+              border: "none",
+              padding: "13px",
+              fontFamily: "Josefin Sans",
+              fontSize: "18px",
+              fontWeight: "700",
+              color: "#fff",
+              boxShadow: "0 0 1rem 0 rgba(0, 0, 0, .2)",
+              background:
+                "linear-gradient(150deg,rgba(41, 200, 105, 1) 0%, rgba(41, 200, 105, 1) 30%, rgba(30, 148, 231, 1) 100%)",
+              cursor: "pointer",
+            }}
+          >
+            Generate Token
+          </button>
+        </Container>
+      )}
+    </>
   );
 };
 
-export default Index;
+export default Home;
