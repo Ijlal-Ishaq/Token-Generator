@@ -1,14 +1,14 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable eqeqeq */
 import { FC, useState } from "react";
 import { styled } from "@mui/material/styles";
 import { useWeb3React } from "@web3-react/core";
 import { deploy } from "../../utils/deploy";
-import { conciseAddress } from "../../utils/formattingFunctions";
+// import { conciseAddress } from "../../utils/formattingFunctions";
 
 const Container = styled("div")(({ theme }) => ({
-  marginTop: "50vh",
-  marginBottom: "15px",
+  marginTop: "100px",
   marginLeft: "auto",
   marginRight: "auto",
   background: "rgba(255, 255, 255, 0.03)",
@@ -16,25 +16,23 @@ const Container = styled("div")(({ theme }) => ({
   backdropFilter: "blur(30px)",
   borderRadius: "5px",
   width: "700px",
-  height: "500px",
-  transform: "translateY(-250px)",
+  height: "590px",
   display: "flex",
   flexDirection: "column",
   padding: "30px 130px",
-  position: "fixed",
   justifyContent: "center",
   left: 0,
   right: 0,
 
   [theme.breakpoints.down("sm")]: {
     width: "90%",
-    marginTop: "45vh",
+    marginTop: "100px",
     padding: "30px",
   },
 }));
 
 const Input = styled("input")(({ theme }) => ({
-  background: "rgba(255, 255, 255, 0.03)",
+  background: "rgba(255, 255, 255, 1)",
   boxShadow: "0 0 1rem 0 rgba(0, 0, 0, .2)",
   backdropFilter: "blur(30px)",
   borderRadius: "5px",
@@ -49,6 +47,7 @@ const Home: FC = () => {
   const [tokenName, setTokenName] = useState("");
   const [tokenSymbol, setTokenSymbol] = useState("");
   const [supply, setSupply] = useState<any>("");
+  const [decimals, setDecimals] = useState<any>("");
   const [address, setAddress] = useState("");
   const [deployingState, setDeployingState] = useState(false);
   const [deployedState, setDeployedState] = useState(false);
@@ -68,6 +67,7 @@ const Home: FC = () => {
         tokenName,
         tokenSymbol,
         supply,
+        decimals,
         webContext,
         setverifyState
       );
@@ -117,30 +117,26 @@ const Home: FC = () => {
           <div
             style={{
               fontSize: "25px",
-              fontWeight: "500",
               color: "#fff",
               fontFamily: "Josefin Sans",
-              marginBottom: "15px",
+              margin: "10px",
               userSelect: "none",
+              wordBreak: "break-all",
+              fontWeight: "light",
             }}
           >
             Your Token Address <br />
-            <a
-              target={"_blank"}
-              rel={"noreferrer"}
-              href={`https://rinkeby.etherscan.io/address/${address}`}
+            <div
               style={{
                 fontSize: "20px",
                 userSelect: "all",
-                cursor: "pointer",
                 textDecoration: "none",
+                marginBottom: "10px",
                 color: "#fff",
               }}
             >
-              {conciseAddress(address, 9)}&#128279;
-            </a>
-            <br />
-            <br />
+              {address}
+            </div>
             <button
               onClick={() => {
                 setDeployedState(false);
@@ -232,12 +228,35 @@ const Home: FC = () => {
             Initial Supply :
           </div>
           <Input
-            type={"text"}
+            type={"number"}
+            min={0}
             name="initialSupply"
             placeholder="Enter initial supply"
             value={supply}
             onChange={(e) => {
               setSupply(parseInt(e.target.value));
+            }}
+          ></Input>
+          <div
+            style={{
+              fontSize: "18px",
+              fontWeight: "700",
+              textAlign: "left",
+              color: "#fff",
+              fontFamily: "Josefin Sans",
+              userSelect: "none",
+            }}
+          >
+            Decimals :
+          </div>
+          <Input
+            type={"number"}
+            min={0}
+            name="initialSupply"
+            placeholder="Enter decimals"
+            value={decimals}
+            onChange={(e) => {
+              setDecimals(parseInt(e.target.value));
             }}
           ></Input>
           <br />

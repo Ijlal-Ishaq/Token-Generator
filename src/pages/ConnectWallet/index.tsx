@@ -10,8 +10,7 @@ import { injected } from "../../utils/connector";
 import { UserRejectedRequestError as UserRejectedRequestErrorFrame } from "@web3-react/frame-connector";
 
 const Container = styled("div")(({ theme }) => ({
-  marginTop: "50vh",
-  marginBottom: "15px",
+  marginTop: "100px",
   marginLeft: "auto",
   marginRight: "auto",
   background: "rgba(255, 255, 255, 0.03)",
@@ -19,19 +18,17 @@ const Container = styled("div")(({ theme }) => ({
   backdropFilter: "blur(30px)",
   borderRadius: "5px",
   width: "700px",
-  height: "500px",
-  transform: "translateY(-250px)",
+  height: "590px",
   display: "flex",
   flexDirection: "column",
   padding: "30px 130px",
-  position: "fixed",
   justifyContent: "center",
   left: 0,
   right: 0,
 
   [theme.breakpoints.down("sm")]: {
     width: "90%",
-    marginTop: "45vh",
+    marginTop: "100px",
     padding: "30px",
   },
 }));
@@ -93,7 +90,8 @@ const Index: FC = () => {
           userSelect: "none",
         }}
       >
-        Connect metamask and make sure you are on 'Rinkeby' network.
+        Connect metamask and make sure you are on one of these networks [1, 3,
+        4, 5, 42, 97, 80001, 137, 56].
       </div>
       <br />
       <button

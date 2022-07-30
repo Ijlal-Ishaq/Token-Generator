@@ -6,6 +6,7 @@ export const deploy = async (
   tokenName,
   tokenSymbol,
   supply,
+  decimals,
   web3Context,
   setverifyState
 ) => {
@@ -20,6 +21,7 @@ export const deploy = async (
         tokenName,
         tokenSymbol,
         web3.utils.toWei(web3.utils.toBN(supply), "ether"),
+        decimals,
       ],
     })
     .send({

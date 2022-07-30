@@ -28,7 +28,7 @@ const WalletAddressButton = styled("div")<{ disconnect?: boolean }>(
     marginRight: "auto",
     position: "fixed",
     right: "15px",
-    top: disconnect ? "50px" : "none",
+    top: disconnect ? "65px" : "15px",
     width: "170px",
     zIndex: "100",
     userSelect: "none",

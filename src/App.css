@@ -2,6 +2,8 @@
   text-align: center;
   height: 100%;
   background-color: #1f1d2c;
+  scroll-behavior: auto;
+  padding-bottom: 100px;
 }
 
 @keyframes App-logo-spin {
